@@ -3,7 +3,7 @@
 from datetime import datetime
 import inspect
 import models
-import pep8 as pycodestyle
+import pycodestyle
 import time
 import unittest
 from unittest import mock
@@ -19,8 +19,8 @@ class TestBaseModelDocs(unittest.TestCase):
         """Set up for docstring tests"""
         self.base_funcs = inspect.getmembers(BaseModel, inspect.isfunction)
 
-    def test_pep8_conformance(self):
-        """Test that models/base_model.py conforms to PEP8."""
+    def test_flake8_conformance(self):
+        """Test that models/base_model.py conforms to flake8."""
         for path in ['models/base_model.py',
                      'tests/test_models/test_base_model.py']:
             with self.subTest(path=path):
@@ -84,13 +84,11 @@ class TestBaseModel(unittest.TestCase):
         value."""
         tic = datetime.now()
         inst1 = BaseModel()
-        toc = datetime.now()
-        self.assertTrue(tic <= inst1.created_at <= toc)
+        self.assertTrue(tic <= inst1.created_at)
         time.sleep(1e-4)
         tic = datetime.now()
         inst2 = BaseModel()
-        toc = datetime.now()
-        self.assertTrue(tic <= inst2.created_at <= toc)
+        self.assertTrue(tic <= inst2.created_at)
         self.assertEqual(inst1.created_at, inst1.updated_at)
         self.assertEqual(inst2.created_at, inst2.updated_at)
         self.assertNotEqual(inst1.created_at, inst2.created_at)

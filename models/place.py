@@ -2,8 +2,8 @@
 """ holds class Place"""
 import models
 from models.base_model import BaseModel, Base
-from os import getenv
-import sqlalchemy
+# from os import getenv
+# import sqlalchemy
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship
 
@@ -50,11 +50,6 @@ class Place(BaseModel, Base):
         longitude = 0.0
         amenity_ids = []
 
-    def __init__(self, *args, **kwargs):
-        """initializes Place"""
-        super().__init__(*args, **kwargs)
-
-    if models.storage_t != 'db':
         @property
         def reviews(self):
             """getter attribute returns the list of Review instances"""
@@ -76,3 +71,7 @@ class Place(BaseModel, Base):
                 if amenity.place_id == self.id:
                     amenity_list.append(amenity)
             return amenity_list
+
+    def __init__(self, *args, **kwargs):
+        """initializes Place"""
+        super().__init__(*args, **kwargs)
