@@ -153,10 +153,18 @@ EOF  all  create  destroy  help  quit  show  update
 ## Bugs
 No known bugs at this time. 
 
-## Authors
+## Original Authors
 Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
 
 Second part of Airbnb: Joann Vuong
+
+## Forked Authors :phone: :mailbox:
+* **Eric Dzyk** **|** [Github](https://github.com/ericpo1sh) **|** [LinkedIn](https://linkedin.com/in/eric-dzyk-1b8976213) **|** [Email](mailto:ericpo1sh@gmail.com)
+
+* **Mei Sibley** **|** [Github](https://github.com/meisibley) **|** [LinkedIn](https://www.linkedin.com/in/mei-sibley-147639277) **|** [Email](mailto:6671@holbertonstudents.com)
 ## License
 Public Domain. No copy write protection. 
+##
+![Holberton School - School of Computer Science and Programming](https://uploads-ssl.webflow.com/6105315644a26f77912a1ada/63eea844ae4e3022154e2878_Holberton.png)
+##
