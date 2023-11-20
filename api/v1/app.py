@@ -2,11 +2,17 @@
 """ Flask App Module for Web """
 from models import storage
 from api.v1.views import app_views
-from flask import Flask
+from flask import Flask, jsonify
 from os import environ
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
+
+
+@app.errorhandler(404)
+def handle_404(e):
+    """ Function that handles error 404 """
+    return jsonify({"error": "Not found"})
 
 
 @app.teardown_appcontext
