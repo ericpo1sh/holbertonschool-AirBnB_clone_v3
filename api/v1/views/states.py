@@ -52,7 +52,7 @@ def create_state():
 def update_state(state_id):
     """ Function that updates a specific state object """
     state = storage.get(State, state_id)
-    if state_id is None:
+    if state is None:
         abort(404)
     kwargs = request.get_json()
     if kwargs is None:
