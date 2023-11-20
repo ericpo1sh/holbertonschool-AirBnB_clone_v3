@@ -117,7 +117,7 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
         """ test that get properly returns objects based on ID and class """
-        state = State(name="Oklahoma")
+        state = State()
         models.storage.new(state)
         models.storage.save()
         obj = models.storage.get("State", state.id)
@@ -126,9 +126,9 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_count(self):
         """ Test that count properly counts all the instances of a object """
-        city_count = models.storage.count("City")
-        city_objects = City("Tulsa")
+        city_count = models.storage.count(City)
+        city_objects = City()
         models.storage.new(city_objects)
         models.storage.save()
-        final = models.storage.count("City")
+        final = models.storage.count(City)
         self.assertEqual(city_count + 1, final)
