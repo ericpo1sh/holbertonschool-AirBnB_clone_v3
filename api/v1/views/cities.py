@@ -8,9 +8,9 @@ from models.city import City
 
 
 @app_views.route(
-        "/states/<state_id>/cities",
-        methods=["GET"],
-        strict_slashes=False
+    "/states/<state_id>/cities",
+    methods=["GET"],
+    strict_slashes=False
 )
 def get_cities(state_id):
     """ Function that retrieves all city objects linked to state_id """
@@ -41,7 +41,10 @@ def delete_city(city_id):
 
 
 @app_views.route(
-        "/states/<state_id>/cities", methods=["POST"], strict_slashes=False)
+    "/states/<state_id>/cities",
+    methods=["POST"],
+    strict_slashes=False
+)
 def create_city(state_id):
     """ Function that creates a new city """
     state = storage.get(State, state_id)
@@ -51,7 +54,7 @@ def create_city(state_id):
     if not kwargs:
         abort(400, description="Not a JSON")
     if "name" not in kwargs:
-        return make_response(jsonify({"error": "Missing name"}), 400)
+        abort(400, description="Missing name")
     new_city = City(**kwargs)
     new_city.state_id = state_id
     new_city.save()
