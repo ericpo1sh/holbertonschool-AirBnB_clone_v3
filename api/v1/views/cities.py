@@ -17,7 +17,8 @@ def get_cities(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    return jsonify([city.to_dict() for city in state.cities])
+    else:
+        return jsonify([city.to_dict() for city in state.cities])
 
 
 @app_views.route("/cities/<city_id>", methods=["GET"], strict_slashes=False)
@@ -26,7 +27,8 @@ def get_city(city_id):
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
-    return jsonify(city.to_dict())
+    else:
+        return jsonify(city.to_dict())
 
 
 @app_views.route(
@@ -37,9 +39,10 @@ def delete_city(city_id):
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
-    storage.delete(city)
-    storage.save()
-    return make_response(jsonify({}), 200)
+    else:
+        storage.delete(city)
+        storage.save()
+        return make_response(jsonify({}), 200)
 
 
 @app_views.route(
@@ -55,10 +58,11 @@ def create_city(state_id):
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     if "name" not in kwargs:
         return make_response(jsonify({"error": "Missing name"}), 400)
-    new_city = City(**kwargs)
-    new_city.state_id = state_id
-    new_city.save()
-    return make_response(jsonify(new_city.to_dict()), 201)
+    else:
+        new_city = City(**kwargs)
+        new_city.state_id = state_id
+        new_city.save()
+        return make_response(jsonify(new_city.to_dict()), 201)
 
 
 @app_views.route("/cities/<city_id>", methods=["PUT"], strict_slashes=False)
@@ -70,8 +74,9 @@ def update_city(city_id):
     kwargs = request.get_json()
     if kwargs is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-    for key, value in kwargs.items():
-        if key not in ["id", "created_at", "updated_at", "state_id"]:
-            setattr(city, key, value)
-    storage.save()
-    return make_response(jsonify(city.to_dict()), 200)
+    else:
+        for key, value in kwargs.items():
+            if key not in ["id", "created_at", "updated_at", "state_id"]:
+                setattr(city, key, value)
+        storage.save()
+        return make_response(jsonify(city.to_dict()), 200)
