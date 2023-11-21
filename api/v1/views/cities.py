@@ -17,8 +17,7 @@ def get_cities(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    else:
-        return jsonify([city.to_dict() for city in state.cities])
+    return jsonify([city.to_dict() for city in state.cities])
 
 
 @app_views.route("/cities/<city_id>", methods=["GET"], strict_slashes=False)
@@ -27,8 +26,7 @@ def get_city(city_id):
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
-    else:
-        return jsonify(city.to_dict())
+    return jsonify(city.to_dict())
 
 
 @app_views.route("/cities/<city_id>", methods=["DELETE"], strict_slashes=False)
@@ -37,10 +35,9 @@ def delete_city(city_id):
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
-    else:
-        storage.delete(city)
-        storage.save()
-        return make_response(jsonify({}), 200)
+    storage.delete(city)
+    storage.save()
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route(
@@ -51,15 +48,14 @@ def create_city(state_id):
     kwargs = request.get_json()
     if state is None:
         abort(404)
-    elif kwargs is None:
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
-    elif "name" not in kwargs:
+    if not kwargs:
+        abort(400, description="Not a JSON")
+    if "name" not in kwargs:
         return make_response(jsonify({"error": "Missing name"}), 400)
-    else:
-        new_city = City(**kwargs)
-        new_city.state_id = state_id
-        new_city.save()
-        return make_response(jsonify(new_city.to_dict()), 201)
+    new_city = City(**kwargs)
+    new_city.state_id = state_id
+    new_city.save()
+    return make_response(jsonify(new_city.to_dict()), 201)
 
 
 @app_views.route("/cities/<city_id>", methods=["PUT"], strict_slashes=False)
@@ -67,13 +63,12 @@ def update_city(city_id):
     """ Function that updates a specific state object """
     city = storage.get(City, city_id)
     kwargs = request.get_json()
-    if city is None:
+    if not city:
         abort(404)
-    elif kwargs is None:
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
-    else:
-        for key, value in kwargs.items():
-            if key not in ["id", "created_at", "updated_at", "state_id"]:
-                setattr(city, key, value)
-        storage.save()
-        return make_response(jsonify(city.to_dict()), 200)
+    if not kwargs:
+        abort(400, description="Not a JSON")
+    for key, value in kwargs.items():
+        if key not in ["id", "created_at", "updated_at", "state_id"]:
+            setattr(city, key, value)
+    storage.save()
+    return make_response(jsonify(city.to_dict()), 200)
