@@ -72,17 +72,10 @@ class FileStorage:
     def get(self, cls, id):
         """ Returns object based on the class and its ID, or None N/A """
         if cls in classes.values():
-            try:
-                requested_object = next(
-                    instance
-                    for instance in self.all(cls).values()
-                    if instance.id == id
-                )
-                return requested_object
-            except StopIteration:
-                return None
-        else:
-            return None
+            for obj in self.all(cls).values():
+                if obj.id == id:
+                    return obj
+        return None
 
     def count(self, cls=None):
         """ Returns count of number of instances of object in filestorage """
