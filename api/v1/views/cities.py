@@ -15,17 +15,18 @@ from models.city import City
 def get_cities(state_id):
     """ Function that retrieves all city objects linked to state_id """
     state = storage.get(State, state_id)
-    return jsonify(
-        [city.to_dict() for city in state.cities]
-        if state is not None else abort(404)
-    )
+    if state is None:
+        abort(404)
+    return jsonify([city.to_dict() for city in state.cities])
 
 
 @app_views.route("/cities/<city_id>", methods=["GET"], strict_slashes=False)
 def get_city(city_id):
     """ Function that retrieves a specific city object """
     city = storage.get(City, city_id)
-    return jsonify(city.to_dict()) if city is not None else abort(404)
+    if city is None:
+        abort(404)
+    return jsonify(city.to_dict())
 
 
 @app_views.route(
@@ -51,9 +52,9 @@ def create_city(state_id):
         abort(404)
     kwargs = request.get_json(silent=True)
     if kwargs is None:
-        abort(400, "Not a JSON")
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if "name" not in kwargs:
-        abort(400, "Missing name")
+        return make_response(jsonify({"error": "Missing name"}), 400)
     new_city = City(**kwargs)
     new_city.state_id = state_id
     new_city.save()
@@ -68,7 +69,7 @@ def update_city(city_id):
         abort(404)
     kwargs = request.get_json()
     if kwargs is None:
-        abort(400, "Not a JSON")
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     for key, value in kwargs.items():
         if key not in ["id", "created_at", "updated_at", "state_id"]:
             setattr(city, key, value)
