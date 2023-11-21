@@ -57,7 +57,8 @@ def create_city(state_id):
         abort(400, description="Missing name")
     new_city = City(**kwargs)
     new_city.state_id = state_id
-    new_city.save()
+    storage.new(new_city)
+    storage.save()
     return make_response(jsonify(new_city.to_dict()), 201)
 
 
