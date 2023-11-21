@@ -31,9 +31,7 @@ def get_city(city_id):
         return jsonify(city.to_dict())
 
 
-@app_views.route(
-    "/cities/<city_id>", methods=["DELETE"], strict_slashes=False
-)
+@app_views.route("/cities/<city_id>", methods=["DELETE"], strict_slashes=False)
 def delete_city(city_id):
     """ Function that deletes a instance of a city object """
     city = storage.get(City, city_id)
@@ -51,12 +49,12 @@ def delete_city(city_id):
 def create_city(state_id):
     """ Function that creates a new city """
     state = storage.get(State, state_id)
+    kwargs = request.get_json()
     if state is None:
         abort(404)
-    kwargs = request.get_json(silent=True)
-    if kwargs is None:
+    elif kwargs is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-    if "name" not in kwargs:
+    elif "name" not in kwargs:
         return make_response(jsonify({"error": "Missing name"}), 400)
     else:
         new_city = City(**kwargs)
@@ -69,10 +67,10 @@ def create_city(state_id):
 def update_city(city_id):
     """ Function that updates a specific state object """
     city = storage.get(City, city_id)
+    kwargs = request.get_json()
     if city is None:
         abort(404)
-    kwargs = request.get_json()
-    if kwargs is None:
+    elif kwargs is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     else:
         for key, value in kwargs.items():
