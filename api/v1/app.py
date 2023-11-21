@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-""" Flask App Module for Web """
+""" Docstring """
+
 from models import storage
 from api.v1.views import app_views
 from flask import Flask, jsonify
