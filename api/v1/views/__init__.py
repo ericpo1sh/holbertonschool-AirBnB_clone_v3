@@ -10,3 +10,4 @@ from api.v1.views.states import * # NOQA
 from api.v1.views.amenities import * # NOQA
 from api.v1.views.users import * # NOQA
 from api.v1.views.places import * # NOQA
+from api.v1.views.places_reviews import * # NOQA
