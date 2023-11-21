@@ -48,14 +48,13 @@ def delete_city(city_id):
 def create_city(state_id):
     """ Function that creates a new city """
     state = storage.get(State, state_id)
-    kwargs = request.get_json()
     if state is None:
         abort(404)
-    if not kwargs:
+    if not request.get_json():
         abort(400, description="Not a JSON")
-    if "name" not in kwargs:
+    if "name" not in request.get_json():
         abort(400, description="Missing name")
-    new_city = City(**kwargs)
+    new_city = City(**request.get_json())
     new_city.state_id = state_id
     storage.new(new_city)
     storage.save()
@@ -66,12 +65,11 @@ def create_city(state_id):
 def update_city(city_id):
     """ Function that updates a specific state object """
     city = storage.get(City, city_id)
-    kwargs = request.get_json()
     if not city:
         abort(404)
-    if not kwargs:
+    if not request.get_json():
         abort(400, description="Not a JSON")
-    for key, value in kwargs.items():
+    for key, value in request.get_json().items():
         if key not in ["id", "created_at", "updated_at", "state_id"]:
             setattr(city, key, value)
     storage.save()
