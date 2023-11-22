@@ -43,7 +43,7 @@ def delete_city(city_id):
 @app_views.route("/states/<state_id>/cities",
                  methods=["Post"], strict_slashes=False)
 def create_city(state_id):
-    """ Create city using a JSON input """
+    """ Create city using a JSON input"""
     get_dict = request.get_json(silent=True)
     if get_dict is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
