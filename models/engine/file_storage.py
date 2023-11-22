@@ -70,7 +70,7 @@ class FileStorage:
         self.reload()
 
     def get(self, cls, id):
-        """ Returns object based on the class and its ID, or None N/A! """
+        """ Returns object based on the class and its ID, or None N/A """
         if cls in classes.values():
             for obj in self.all(cls).values():
                 if obj.id == id:
@@ -78,5 +78,5 @@ class FileStorage:
         return None
 
     def count(self, cls=None):
-        """ Returns count of number of instances of object in filestorage! """
+        """ Returns count of number of instances of object in filestorage """
         return len(self.all(cls))
