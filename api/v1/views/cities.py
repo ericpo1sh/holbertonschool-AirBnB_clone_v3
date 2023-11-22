@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Cities Module """
 from api.v1.views import app_views
-from flask import abort, jsonify, request
+from flask import abort, jsonify, request, make_response
 from models import storage
 from models.city import City
 from models.state import State
@@ -44,20 +44,19 @@ def delete_city(city_id):
                  methods=["POST"],
                  strict_slashes=False)
 def create_city(state_id):
-    """ Function that creates a city """
-    state = storage.get(State, state_id)
-    if state is None:
+    """ Create city using a JSON input """
+    get_dict = request.get_json(silent=True)
+    if get_dict is None:
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
+    if "name" not in get_dict.keys() or get_dict["name"] is None:
+        return make_response(jsonify({"error": "Missing name"}), 400)
+    specific_state = storage.get(State, state_id)
+    if specific_state is None:
         abort(404)
-    kwargs = request.get_json()
-    if kwargs is None:
-        abort(400, "Not a JSON")
-    if "name" not in kwargs:
-        abort(400, "Missing name")
-    kwargs[state_id] = state_id
-    new_city = City(**kwargs)
-    storage.new(new_city)
-    storage.save()
-    return jsonify(new_city.to_dict()), 201
+    get_dict["state_id"] = state_id
+    new_city = City(**get_dict)
+    new_city.save()
+    return make_response(jsonify(new_city.to_dict()), 201)
 
 
 @app_views.route("/cities/<city_id>", methods=["PUT"], strict_slashes=False)
