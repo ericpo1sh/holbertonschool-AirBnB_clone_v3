@@ -48,7 +48,7 @@ def create_city(state_id):
     kwargs = request.get_json()
     if kwargs is None:
         abort(400, "Not a JSON")
-    if "name" not in kwargs.keys():
+    if "name" not in kwargs.keys() or kwargs["name"] is None():
         abort(400, "Missing name")
     state = storage.get(State, state_id)
     if state is None:
