@@ -60,8 +60,8 @@ def create_review(place_id):
         abort(404)
     if "text" not in kwargs:
         abort(400, "Missing text")
+    kwargs["place_id"] = place_id
     new_review = Review(**kwargs)
-    new_review[place_id] = place_id
     storage.new(new_review)
     storage.save()
     return jsonify(new_review.to_dict()), 201
