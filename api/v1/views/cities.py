@@ -44,17 +44,17 @@ def delete_city(city_id):
                  methods=["POST"],
                  strict_slashes=False)
 def create_city(state_id):
-    """ Function that creates a city """
-    specs = request.get_json(silent=True)
-    if specs is None:
+    """ Create city using a JSON input """
+    get_dict = request.get_json(silent=True)
+    if get_dict is None:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-    if "name" not in specs.keys() or specs["name"] is None:
+    if "name" not in get_dict.keys() or get_dict["name"] is None:
         return make_response(jsonify({"error": "Missing name"}), 400)
-    state = storage.get(State, state_id)
-    if state is None:
+    specific_state = storage.get(State, state_id)
+    if specific_state is None:
         abort(404)
-    specs[state_id] = state_id
-    new_city = City(**specs)
+    get_dict["state_id"] = state_id
+    new_city = City(**get_dict)
     new_city.save()
     return make_response(jsonify(new_city.to_dict()), 201)
 
