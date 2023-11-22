@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-"""Docstring"""
-
+"""app module"""
 from models import storage
 from api.v1.views import app_views
 from flask_cors import CORS
