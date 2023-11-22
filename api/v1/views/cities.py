@@ -45,7 +45,7 @@ def delete_city(city_id):
                  strict_slashes=False)
 def create_city(state_id):
     """ Function that creates a city """
-    kwargs = request.get_json()
+    kwargs = request.get_json(silent=True)
     if kwargs is None:
         abort(400, "Not a JSON")
     if "name" not in kwargs.keys() or kwargs["name"] is None:
