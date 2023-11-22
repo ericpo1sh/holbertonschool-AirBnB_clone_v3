@@ -61,7 +61,7 @@ def create_place(city_id):
     if "name" not in kwargs:
         abort(400, "Missing name")
     new_place = Place(**kwargs)
-    new_place.city_id = city_id
+    new_place[city_id] = city_id
     storage.new(new_place)
     storage.save()
     return jsonify(new_place.to_dict()), 201
