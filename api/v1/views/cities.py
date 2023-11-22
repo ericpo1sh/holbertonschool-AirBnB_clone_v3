@@ -53,7 +53,6 @@ def create_city(state_id):
         abort(400, "Not a JSON")
     if "name" not in kwargs:
         abort(400, "Missing name")
-    kwargs["state_id"] = state_id
     new_city = City(**kwargs)
     new_city[state_id] = state_id
     storage.new(new_city)
