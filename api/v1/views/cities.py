@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Cities Module """
 from api.v1.views import app_views
-from flask import abort, jsonify, request
+from flask import abort, jsonify, request, make_response
 from models import storage
 from models.city import City
 from models.state import State
@@ -45,11 +45,11 @@ def delete_city(city_id):
                  strict_slashes=False)
 def create_city(state_id):
     """ Function that creates a city """
-    kwargs = request.get_json(silent=True)
+    kwargs = request.get_json()
     if kwargs is None:
-        abort(400, "Not a JSON")
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if "name" not in kwargs.keys() or kwargs["name"] is None:
-        abort(400, "Missing name")
+        return make_response(jsonify({"error": "Missing name"}), 400)
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
