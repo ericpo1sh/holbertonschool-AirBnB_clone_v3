@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Cities Module """
 from api.v1.views import app_views
-from flask import abort, jsonify, request
+from flask import abort, jsonify, request, make_response
 from models import storage
 from models.city import City
 from models.state import State
@@ -37,7 +37,7 @@ def delete_city(city_id):
         abort(404)
     storage.delete(city)
     storage.save()
-    return jsonify({}), 200
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route("/states/<state_id>/cities",
